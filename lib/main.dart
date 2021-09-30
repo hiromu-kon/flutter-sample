@@ -11,10 +11,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
@@ -36,6 +32,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        iconTheme: IconThemeData(color: Colors.black),
         bottomOpacity: 0.0,
         elevation: 0.0,
         backgroundColor: Colors.white,
@@ -45,20 +42,51 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       drawer: Drawer(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [Icon(Icons.add_a_photo)],
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            DrawerHeader(
+              child: Text('Drawer Header'),
+            ),
+            ListTile(
+              leading: Icon(Icons.person_outline),
+              title: Text('プロフィール'),
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.article_outlined),
+              title: Text('リスト'),
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+          ],
         ),
       ),
-      body: Column(
-        children: [
-          Text('まだ何も投稿されていません'),
-        ],
+      body: Container(
+        padding: EdgeInsets.only(
+          top: 30,
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text('まだ何も投稿されていません'),
+          ],
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.article_outlined),
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => NextPage(),
+              fullscreenDialog: true,
+            ),
+          );
+        },
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: [

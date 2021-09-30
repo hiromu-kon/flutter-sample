@@ -7,21 +7,26 @@ class NextPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text(
-            'テスト',
+      appBar: AppBar(
+          bottomOpacity: 0.0,
+          elevation: 0.0,
+          backgroundColor: Colors.white,
+          iconTheme: IconThemeData(color: Colors.black)),
+      body: Container(
+        width: double.infinity,
+        padding: EdgeInsets.only(
+          top: 10,
+          left: 10,
+        ),
+        child: TextField(
+          keyboardType: TextInputType.multiline,
+          maxLines: null,
+          decoration: InputDecoration(
+            border: InputBorder.none,
+            hintText: 'いまどうしてる？',
           ),
         ),
-        body: Column(
-          children: [
-            Center(
-              child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: Text('前のページへ')),
-            ),
-          ],
-        ));
+      ),
+    );
   }
 }
