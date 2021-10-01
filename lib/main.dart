@@ -43,11 +43,20 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       drawer: Drawer(
         child: ListView(
-          padding: EdgeInsets.zero,
           children: [
-            DrawerHeader(
-              child: Text('Drawer Header'),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Image.network(
+                  'https://www.10wallpaper.com/wallpaper/1366x768/2005/Mountains_Rocks_Lake_2020_Landscape_High_Quality_Photo_1366x768.jpg',
+                  width: 200,
+                ),
+                Icon(Icons.more_horiz)
+              ],
             ),
+            Text('ひろむ'),
+            Text('@myIDdesu'),
+            Text('111フォロ-'),
             ListTile(
               leading: Icon(Icons.person_outline),
               title: Text('プロフィール'),
@@ -58,6 +67,34 @@ class _MyHomePageState extends State<MyHomePage> {
             ListTile(
               leading: Icon(Icons.article_outlined),
               title: Text('リスト'),
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.article_outlined),
+              title: Text('トピック'),
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.bookmark_border),
+              title: Text('ブックマーク'),
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.settings),
+              title: Text('設定とプライバシー'),
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.help_outline),
+              title: Text('ヘルプセンター'),
               onTap: () {
                 Navigator.pop(context);
               },
