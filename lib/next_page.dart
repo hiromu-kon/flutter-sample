@@ -25,7 +25,7 @@ class _NextPageState extends State<NextPage> {
         iconTheme: const IconThemeData(color: Colors.black),
         actions: [
           Container(
-            padding: const EdgeInsets.only(right: 20),
+            padding: const EdgeInsets.only(right: 20, top: 8, bottom: 8),
             child: ElevatedButton(
               child: const Text('ツイートする'),
               style: ElevatedButton.styleFrom(
@@ -33,11 +33,13 @@ class _NextPageState extends State<NextPage> {
                 onPrimary: Colors.white,
                 shape: const StadiumBorder(),
               ),
-              onPressed: () => setState(() {
-                widget.list.add(content);
+              onPressed: () => setState(
+                () {
+                  widget.list.add(content);
 
-                Navigator.pop(context, widget.list);
-              }),
+                  Navigator.pop(context, widget.list);
+                },
+              ),
             ),
           ),
         ],

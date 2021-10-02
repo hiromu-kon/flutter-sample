@@ -165,7 +165,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
                 onTap: () {
                   setState(() {
-                    list.add("楽天");
+                    list.add("テスト");
                   });
                 },
               ),
@@ -306,8 +306,6 @@ class _MyHomePageState extends State<MyHomePage> {
               fullscreenDialog: true,
             ),
           );
-          list = result;
-          print(list);
         },
       ),
       bottomNavigationBar: BottomNavigationBar(
