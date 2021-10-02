@@ -57,7 +57,6 @@ class _NextPageState extends State<NextPage> {
           ),
           onChanged: (value) {
             content = value;
-            print(content);
           },
         ),
       ),

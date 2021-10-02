@@ -209,20 +209,93 @@ class _MyHomePageState extends State<MyHomePage> {
           style: TextStyle(color: Colors.blue),
         ),
       ),
-      body: ListView.builder(
-          itemCount: list.length,
-          itemBuilder: (context, index) {
-            return ListTile(
-                title: Text(list[index]),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ListDetail(),
+      body: list.length == 0
+          ? Container(
+              padding: EdgeInsets.only(
+                top: 24,
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text('まだ何も投稿されていません'),
+                ],
+              ),
+            )
+          : ListView.separated(
+              itemCount: list.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                    leading: CircleAvatar(
+                      backgroundImage: NetworkImage(
+                          'https://www.10wallpaper.com/wallpaper/1366x768/2005/Mountains_Rocks_Lake_2020_Landscape_High_Quality_Photo_1366x768.jpg'),
+                      backgroundColor: Colors.transparent,
                     ),
-                  );
-                });
-          }),
+                    title: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'ひろむ',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 18),
+                        ),
+                        Text(
+                          '@myIDdesu',
+                          style: TextStyle(color: Colors.grey, fontSize: 12),
+                        ),
+                        Text('0時間前',
+                            style: TextStyle(color: Colors.grey, fontSize: 12)),
+                        Icon(
+                          Icons.more_horiz,
+                          color: Colors.grey,
+                          size: 16,
+                        )
+                      ],
+                    ),
+                    subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            list[index],
+                            style: TextStyle(color: Colors.black),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 24),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Icon(
+                                  Icons.mode_comment_outlined,
+                                  color: Colors.grey,
+                                  size: 18,
+                                ),
+                                Icon(
+                                  Icons.repeat_outlined,
+                                  color: Colors.grey,
+                                  size: 18,
+                                ),
+                                Icon(
+                                  Icons.favorite_border,
+                                  color: Colors.grey,
+                                  size: 18,
+                                )
+                              ],
+                            ),
+                          )
+                        ]),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ListDetail(list[index]),
+                        ),
+                      );
+                    });
+              },
+              separatorBuilder: (context, index) => Divider(
+                color: Colors.black12,
+                height: 3,
+              ),
+            ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.article_outlined),
         onPressed: () async {
@@ -233,6 +306,8 @@ class _MyHomePageState extends State<MyHomePage> {
               fullscreenDialog: true,
             ),
           );
+          list = result;
+          print(list);
         },
       ),
       bottomNavigationBar: BottomNavigationBar(
