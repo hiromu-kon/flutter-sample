@@ -221,7 +221,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 ],
               ),
             )
-          : ListView.separated(
+          : ListView.builder(
               itemCount: list.length,
               itemBuilder: (context, index) {
                 return ListTile(
@@ -291,10 +291,6 @@ class _MyHomePageState extends State<MyHomePage> {
                       );
                     });
               },
-              separatorBuilder: (context, index) => Divider(
-                color: Colors.black12,
-                height: 3,
-              ),
             ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.article_outlined),
