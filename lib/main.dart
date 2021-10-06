@@ -29,11 +29,12 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  List<String> list = [];
   final GlobalKey<ScaffoldState> _key = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
+    List<String> list = [];
+
     return Scaffold(
       backgroundColor: Colors.white,
       key: _key,
@@ -221,7 +222,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 ],
               ),
             )
-          : ListView.builder(
+          : ListView.separated(
               itemCount: list.length,
               itemBuilder: (context, index) {
                 return ListTile(
@@ -291,6 +292,10 @@ class _MyHomePageState extends State<MyHomePage> {
                       );
                     });
               },
+              separatorBuilder: (context, index) => Divider(
+                color: Colors.black12,
+                height: 3,
+              ),
             ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.article_outlined),
@@ -302,6 +307,8 @@ class _MyHomePageState extends State<MyHomePage> {
               fullscreenDialog: true,
             ),
           );
+
+          print(list);
         },
       ),
       bottomNavigationBar: BottomNavigationBar(
