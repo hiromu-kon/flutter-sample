@@ -307,7 +307,6 @@ class _MyHomePageState extends State<MyHomePage> {
               fullscreenDialog: true,
             ),
           );
-
           print(list);
         },
       ),
