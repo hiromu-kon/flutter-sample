@@ -3,10 +3,10 @@ import 'dart:ffi';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class NextPage extends StatefulWidget {
-  final List list;
+import 'const.dart';
 
-  const NextPage({Key? key, required this.list}) : super(key: key);
+class NextPage extends StatefulWidget {
+  const NextPage({Key? key}) : super(key: key);
 
   @override
   _NextPageState createState() => _NextPageState();
@@ -35,9 +35,9 @@ class _NextPageState extends State<NextPage> {
               ),
               onPressed: () => setState(
                 () {
-                  widget.list.add(content);
+                  list.add(content);
 
-                  Navigator.pop(context, widget.list);
+                  Navigator.pop(context, list);
                 },
               ),
             ),
