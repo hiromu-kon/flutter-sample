@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sample/next_page.dart';
-import 'const.dart';
 
 import 'list_detail.dart';
 
@@ -31,6 +30,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final GlobalKey<ScaffoldState> _key = GlobalKey<ScaffoldState>();
+  List list = [];
 
   @override
   Widget build(BuildContext context) {
@@ -302,10 +302,13 @@ class _MyHomePageState extends State<MyHomePage> {
           final result = await Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => NextPage(),
+              builder: (context) => NextPage(list),
               fullscreenDialog: true,
             ),
           );
+          setState(() {
+            list = result;
+          });
           print(list);
         },
       ),
