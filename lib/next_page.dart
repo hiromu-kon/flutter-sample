@@ -2,11 +2,11 @@ import 'dart:ffi';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import 'provider.dart';
 
 class NextPage extends StatefulWidget {
-  NextPage(this.list);
-  final List list;
-
   @override
   _NextPageState createState() => _NextPageState();
 }
@@ -32,13 +32,10 @@ class _NextPageState extends State<NextPage> {
                 onPrimary: Colors.white,
                 shape: const StadiumBorder(),
               ),
-              onPressed: () => setState(
-                () {
-                  widget.list.add(content);
-
-                  Navigator.pop(context, widget.list);
-                },
-              ),
+              onPressed: () {
+                context.read<TweetProvider>().addList(content);
+                Navigator.pop(context);
+              },
             ),
           ),
         ],

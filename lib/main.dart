@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sample/next_page.dart';
+import 'package:sample/provider.dart';
+import 'package:provider/provider.dart';
 
 import 'list_detail.dart';
 
@@ -13,16 +15,23 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<TweetProvider>(create: (_) => TweetProvider())
+      ],
+      child: MaterialApp(
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        home: const MyHomePage(),
+      ),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
-
-  final String title;
+  const MyHomePage({Key? key}) : super(key: key);
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -30,7 +39,6 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final GlobalKey<ScaffoldState> _key = GlobalKey<ScaffoldState>();
-  List list = [];
 
   @override
   Widget build(BuildContext context) {
@@ -163,11 +171,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     style: TextStyle(color: Colors.black, fontSize: 17),
                   ),
                 ),
-                onTap: () {
-                  setState(() {
-                    list.add("テスト");
-                  });
-                },
+                onTap: () {},
               ),
               ListTile(
                 leading: Transform.translate(
@@ -209,7 +213,7 @@ class _MyHomePageState extends State<MyHomePage> {
           style: TextStyle(color: Colors.blue),
         ),
       ),
-      body: list.length == 0
+      body: context.watch<TweetProvider>().list.length == 0
           ? Container(
               padding: EdgeInsets.only(
                 top: 24,
@@ -222,7 +226,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             )
           : ListView.separated(
-              itemCount: list.length,
+              itemCount: context.watch<TweetProvider>().list.length,
               itemBuilder: (context, index) {
                 return ListTile(
                     leading: CircleAvatar(
@@ -255,7 +259,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            list[index],
+                            context.watch<TweetProvider>().list[index],
                             style: TextStyle(color: Colors.black),
                           ),
                           Padding(
@@ -286,7 +290,8 @@ class _MyHomePageState extends State<MyHomePage> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => ListDetail(list[index]),
+                          builder: (context) => ListDetail(
+                              context.watch<TweetProvider>().list[index]),
                         ),
                       );
                     });
@@ -302,14 +307,10 @@ class _MyHomePageState extends State<MyHomePage> {
           final result = await Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => NextPage(list),
+              builder: (context) => NextPage(),
               fullscreenDialog: true,
             ),
           );
-          setState(() {
-            list = result;
-          });
-          print(list);
         },
       ),
       bottomNavigationBar: BottomNavigationBar(
