@@ -7,6 +7,8 @@ import 'package:provider/provider.dart';
 import 'provider.dart';
 
 class NextPage extends StatefulWidget {
+  const NextPage({Key? key}) : super(key: key);
+
   @override
   _NextPageState createState() => _NextPageState();
 }

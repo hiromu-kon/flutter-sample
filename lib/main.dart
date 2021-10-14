@@ -48,39 +48,37 @@ class _MyHomePageState extends State<MyHomePage> {
       drawerEdgeDragWidth: 0,
       drawer: Drawer(
         child: Container(
-          padding: EdgeInsets.only(top: 10, left: 14, right: 14),
+          padding: const EdgeInsets.only(top: 10, left: 14, right: 14),
           child: ListView(
             children: [
-              Container(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    CircleAvatar(
-                        radius: 30,
-                        backgroundColor: Colors.white,
-                        backgroundImage: NetworkImage(
-                          'https://www.10wallpaper.com/wallpaper/1366x768/2005/Mountains_Rocks_Lake_2020_Landscape_High_Quality_Photo_1366x768.jpg',
-                        )),
-                    Icon(Icons.more_horiz),
-                  ],
-                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: const [
+                  CircleAvatar(
+                      radius: 30,
+                      backgroundColor: Colors.white,
+                      backgroundImage: NetworkImage(
+                        'https://www.10wallpaper.com/wallpaper/1366x768/2005/Mountains_Rocks_Lake_2020_Landscape_High_Quality_Photo_1366x768.jpg',
+                      )),
+                  Icon(Icons.more_horiz),
+                ],
               ),
-              Text('ひろむ',
+              const Text('ひろむ',
                   style: TextStyle(
                       color: Colors.black,
                       fontSize: 17,
                       fontWeight: FontWeight.bold,
                       height: 2)),
-              Text('@myIDdesu',
+              const Text('@myIDdesu',
                   style: TextStyle(
                       color: Colors.grey,
                       fontWeight: FontWeight.bold,
                       height: 1.5)),
               RichText(
-                text: TextSpan(
+                text: const TextSpan(
                   style:
                       TextStyle(color: Colors.black, fontSize: 13, height: 2),
-                  children: const <TextSpan>[
+                  children: <TextSpan>[
                     TextSpan(
                         text: '111',
                         style: TextStyle(fontWeight: FontWeight.bold)),
@@ -99,19 +97,19 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ),
               Container(
-                padding: EdgeInsets.only(top: 20, right: 0),
+                padding: const EdgeInsets.only(top: 20, right: 0),
                 child: ListTile(
                   leading: Transform.translate(
-                    offset: Offset(-16, 0),
-                    child: Icon(
+                    offset: const Offset(-16, 0),
+                    child: const Icon(
                       Icons.person_outline,
                       color: Colors.black,
                       size: 28,
                     ),
                   ),
                   title: Transform.translate(
-                    offset: Offset(-16, 0),
-                    child: Text(
+                    offset: const Offset(-16, 0),
+                    child: const Text(
                       'プロフィール',
                       style: TextStyle(color: Colors.black, fontSize: 17),
                     ),
@@ -120,13 +118,13 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               ListTile(
                 leading: Transform.translate(
-                  offset: Offset(-16, 0),
-                  child: Icon(Icons.article_outlined,
+                  offset: const Offset(-16, 0),
+                  child: const Icon(Icons.article_outlined,
                       color: Colors.black, size: 28),
                 ),
                 title: Transform.translate(
-                  offset: Offset(-16, 0),
-                  child: Text(
+                  offset: const Offset(-16, 0),
+                  child: const Text(
                     'リスト',
                     style: TextStyle(color: Colors.black, fontSize: 17),
                   ),
@@ -134,13 +132,13 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               ListTile(
                 leading: Transform.translate(
-                  offset: Offset(-16, 0),
-                  child: Icon(Icons.article_outlined,
+                  offset: const Offset(-16, 0),
+                  child: const Icon(Icons.article_outlined,
                       color: Colors.black, size: 28),
                 ),
                 title: Transform.translate(
-                  offset: Offset(-16, 0),
-                  child: Text(
+                  offset: const Offset(-16, 0),
+                  child: const Text(
                     'トピック',
                     style: TextStyle(color: Colors.black, fontSize: 17),
                   ),
@@ -148,12 +146,12 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               ListTile(
                 leading: Transform.translate(
-                    offset: Offset(-16, 0),
-                    child: Icon(Icons.bookmark_border,
+                    offset: const Offset(-16, 0),
+                    child: const Icon(Icons.bookmark_border,
                         color: Colors.black, size: 28)),
                 title: Transform.translate(
-                  offset: Offset(-16, 0),
-                  child: Text(
+                  offset: const Offset(-16, 0),
+                  child: const Text(
                     'ブックマーク',
                     style: TextStyle(color: Colors.black, fontSize: 17),
                   ),
@@ -161,12 +159,13 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               ListTile(
                 leading: Transform.translate(
-                  offset: Offset(-16, 0),
-                  child: Icon(Icons.settings, color: Colors.black, size: 28),
+                  offset: const Offset(-16, 0),
+                  child:
+                      const Icon(Icons.settings, color: Colors.black, size: 28),
                 ),
                 title: Transform.translate(
-                  offset: Offset(-16, 0),
-                  child: Text(
+                  offset: const Offset(-16, 0),
+                  child: const Text(
                     '設定とプライバシー',
                     style: TextStyle(color: Colors.black, fontSize: 17),
                   ),
@@ -175,13 +174,13 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               ListTile(
                 leading: Transform.translate(
-                  offset: Offset(-16, 0),
-                  child:
-                      Icon(Icons.help_outline, color: Colors.black, size: 28),
+                  offset: const Offset(-16, 0),
+                  child: const Icon(Icons.help_outline,
+                      color: Colors.black, size: 28),
                 ),
                 title: Transform.translate(
-                  offset: Offset(-16, 0),
-                  child: Text(
+                  offset: const Offset(-16, 0),
+                  child: const Text(
                     'ヘルプセンター',
                     style: TextStyle(color: Colors.black, fontSize: 17),
                   ),
@@ -194,8 +193,8 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         leading: GestureDetector(
-            child: Padding(
-              padding: const EdgeInsets.all(8),
+            child: const Padding(
+              padding: EdgeInsets.all(8),
               child: CircleAvatar(
                 backgroundImage: NetworkImage(
                     'https://www.10wallpaper.com/wallpaper/1366x768/2005/Mountains_Rocks_Lake_2020_Landscape_High_Quality_Photo_1366x768.jpg'),
@@ -205,22 +204,22 @@ class _MyHomePageState extends State<MyHomePage> {
             onTap: () {
               _key.currentState!.openDrawer();
             }),
-        iconTheme: IconThemeData(color: Colors.black),
+        iconTheme: const IconThemeData(color: Colors.black),
         elevation: 0.1,
         backgroundColor: Colors.white,
-        title: Text(
+        title: const Text(
           'Twitter Clone',
           style: TextStyle(color: Colors.blue),
         ),
       ),
-      body: context.watch<TweetProvider>().list.length == 0
+      body: context.watch<TweetProvider>().list.isEmpty
           ? Container(
-              padding: EdgeInsets.only(
+              padding: const EdgeInsets.only(
                 top: 24,
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [
+                children: const [
                   Text('まだ何も投稿されていません'),
                 ],
               ),
@@ -229,14 +228,14 @@ class _MyHomePageState extends State<MyHomePage> {
               itemCount: context.watch<TweetProvider>().list.length,
               itemBuilder: (context, index) {
                 return ListTile(
-                    leading: CircleAvatar(
+                    leading: const CircleAvatar(
                       backgroundImage: NetworkImage(
                           'https://www.10wallpaper.com/wallpaper/1366x768/2005/Mountains_Rocks_Lake_2020_Landscape_High_Quality_Photo_1366x768.jpg'),
                       backgroundColor: Colors.transparent,
                     ),
                     title: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
+                      children: const [
                         Text(
                           'ひろむ',
                           style: TextStyle(
@@ -260,13 +259,13 @@ class _MyHomePageState extends State<MyHomePage> {
                         children: [
                           Text(
                             context.watch<TweetProvider>().list[index],
-                            style: TextStyle(color: Colors.black),
+                            style: const TextStyle(color: Colors.black),
                           ),
                           Padding(
                             padding: const EdgeInsets.only(top: 24),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
+                              children: const [
                                 Icon(
                                   Icons.mode_comment_outlined,
                                   color: Colors.grey,
@@ -296,13 +295,13 @@ class _MyHomePageState extends State<MyHomePage> {
                       );
                     });
               },
-              separatorBuilder: (context, index) => Divider(
+              separatorBuilder: (context, index) => const Divider(
                 color: Colors.black12,
                 height: 3,
               ),
             ),
       floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.article_outlined),
+        child: const Icon(Icons.article_outlined),
         onPressed: () async {
           final result = await Navigator.push(
             context,
@@ -315,7 +314,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Colors.white,
-        items: [
+        items: const [
           BottomNavigationBarItem(
               icon: Icon(Icons.home_outlined), title: Text('ホーム')),
           BottomNavigationBarItem(
