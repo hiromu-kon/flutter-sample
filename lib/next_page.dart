@@ -1,7 +1,9 @@
 import 'dart:ffi';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import 'provider.dart';
@@ -35,8 +37,18 @@ class _NextPageState extends State<NextPage> {
                 shape: const StadiumBorder(),
               ),
               onPressed: () {
-                context.read<TweetProvider>().addList(content);
+                if (content != null) {
+                  var dateFormat = DateFormat('H:mm・yyyy/MM/dd');
+                  var timeString = dateFormat.format(DateTime.now());
+
+                  FirebaseFirestore.instance.collection('tweet').doc().set({
+                    'tweet': content,
+                    'time': timeString,
+                  });
+                }
                 Navigator.pop(context);
+                // context.read<TweetProvider>().addList(content);
+                // Navigator.pop(context);
               },
             ),
           ),
