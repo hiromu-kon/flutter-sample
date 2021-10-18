@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -227,82 +228,92 @@ class _MyHomePageState extends State<MyHomePage> {
                 ],
               ),
             )
-          : ListView.separated(
-              itemCount: context.watch<TweetProvider>().list.length,
-              itemBuilder: (context, index) {
-                return ListTile(
-                    leading: const CircleAvatar(
-                      backgroundImage: NetworkImage(
-                          'https://www.10wallpaper.com/wallpaper/1366x768/2005/Mountains_Rocks_Lake_2020_Landscape_High_Quality_Photo_1366x768.jpg'),
-                      backgroundColor: Colors.transparent,
-                    ),
-                    title: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: const [
-                        Text(
-                          'ひろむ',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 18),
+          : StreamBuilder(
+              stream: FirebaseFirestore.instance
+                  .collection('tweet')
+                  .doc()
+                  .snapshots(),
+              builder: (context, snapshot) {
+                return ListView.separated(
+                  itemCount: snapshot.data!.docs.length,
+                  itemBuilder: (context, index) {
+                    return ListTile(
+                        leading: const CircleAvatar(
+                          backgroundImage: NetworkImage(
+                              'https://www.10wallpaper.com/wallpaper/1366x768/2005/Mountains_Rocks_Lake_2020_Landscape_High_Quality_Photo_1366x768.jpg'),
+                          backgroundColor: Colors.transparent,
                         ),
-                        Text(
-                          '@myIDdesu',
-                          style: TextStyle(color: Colors.grey, fontSize: 12),
-                        ),
-                        Text('0時間前',
-                            style: TextStyle(color: Colors.grey, fontSize: 12)),
-                        Icon(
-                          Icons.more_horiz,
-                          color: Colors.grey,
-                          size: 16,
-                        )
-                      ],
-                    ),
-                    subtitle: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            context.watch<TweetProvider>().list[index],
-                            style: const TextStyle(color: Colors.black),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 24),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: const [
-                                Icon(
-                                  Icons.mode_comment_outlined,
-                                  color: Colors.grey,
-                                  size: 18,
-                                ),
-                                Icon(
-                                  Icons.repeat_outlined,
-                                  color: Colors.grey,
-                                  size: 18,
-                                ),
-                                Icon(
-                                  Icons.favorite_border,
-                                  color: Colors.grey,
-                                  size: 18,
-                                )
-                              ],
+                        title: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: const [
+                            Text(
+                              'ひろむ',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 18),
                             ),
-                          )
-                        ]),
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => ListDetail(
-                              context.watch<TweetProvider>().list[index]),
+                            Text(
+                              '@myIDdesu',
+                              style:
+                                  TextStyle(color: Colors.grey, fontSize: 12),
+                            ),
+                            Text('0時間前',
+                                style: TextStyle(
+                                    color: Colors.grey, fontSize: 12)),
+                            Icon(
+                              Icons.more_horiz,
+                              color: Colors.grey,
+                              size: 16,
+                            )
+                          ],
                         ),
-                      );
-                    });
-              },
-              separatorBuilder: (context, index) => const Divider(
-                color: Colors.black12,
-                height: 3,
-              ),
-            ),
+                        subtitle: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                snapshot.data.docs[index].data['tweet'],
+                                style: const TextStyle(color: Colors.black),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(top: 24),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: const [
+                                    Icon(
+                                      Icons.mode_comment_outlined,
+                                      color: Colors.grey,
+                                      size: 18,
+                                    ),
+                                    Icon(
+                                      Icons.repeat_outlined,
+                                      color: Colors.grey,
+                                      size: 18,
+                                    ),
+                                    Icon(
+                                      Icons.favorite_border,
+                                      color: Colors.grey,
+                                      size: 18,
+                                    )
+                                  ],
+                                ),
+                              )
+                            ]),
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ListDetail(
+                                  context.watch<TweetProvider>().list[index]),
+                            ),
+                          );
+                        });
+                  },
+                  separatorBuilder: (context, index) => const Divider(
+                    color: Colors.black12,
+                    height: 3,
+                  ),
+                );
+              }),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.article_outlined),
         onPressed: () async {
