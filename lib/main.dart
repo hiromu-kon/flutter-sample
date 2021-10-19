@@ -216,8 +216,93 @@ class _MyHomePageState extends State<MyHomePage> {
           style: TextStyle(color: Colors.blue),
         ),
       ),
-      body: context.watch<TweetProvider>().list.isEmpty
-          ? Container(
+      body: StreamBuilder<QuerySnapshot>(
+        stream: FirebaseFirestore.instance.collection('tweet').snapshots(),
+        builder: (context, snapshot) {
+          if (snapshot.data!.docs.isNotEmpty) {
+            final List<DocumentSnapshot> documents = snapshot.data!.docs;
+            return ListView.separated(
+              shrinkWrap: true,
+              itemCount: documents.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                    leading: const CircleAvatar(
+                      backgroundImage: NetworkImage(
+                          'https://www.10wallpaper.com/wallpaper/1366x768/2005/Mountains_Rocks_Lake_2020_Landscape_High_Quality_Photo_1366x768.jpg'),
+                      backgroundColor: Colors.transparent,
+                    ),
+                    title: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: const [
+                        Text(
+                          'ひろむ',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 18),
+                        ),
+                        Text(
+                          '@myIDdesu',
+                          style: TextStyle(color: Colors.grey, fontSize: 12),
+                        ),
+                        Text('0時間前',
+                            style: TextStyle(color: Colors.grey, fontSize: 12)),
+                        Icon(
+                          Icons.more_horiz,
+                          color: Colors.grey,
+                          size: 16,
+                        )
+                      ],
+                    ),
+                    subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            documents[index]["tweet"],
+                            style: const TextStyle(color: Colors.black),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 24),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: const [
+                                Icon(
+                                  Icons.mode_comment_outlined,
+                                  color: Colors.grey,
+                                  size: 18,
+                                ),
+                                Icon(
+                                  Icons.repeat_outlined,
+                                  color: Colors.grey,
+                                  size: 18,
+                                ),
+                                Icon(
+                                  Icons.favorite_border,
+                                  color: Colors.grey,
+                                  size: 18,
+                                )
+                              ],
+                            ),
+                          )
+                        ]),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ListDetail(
+                              documents[index]["tweet"],
+                              documents[index]["time"]),
+                        ),
+                      );
+                    });
+              },
+              separatorBuilder: (context, index) => const Divider(
+                color: Colors.black12,
+                height: 3,
+              ),
+            );
+          } else if (snapshot.hasError) {
+            return Text('エラー');
+          } else {
+            return Container(
               padding: const EdgeInsets.only(
                 top: 24,
               ),
@@ -227,93 +312,10 @@ class _MyHomePageState extends State<MyHomePage> {
                   Text('まだ何も投稿されていません'),
                 ],
               ),
-            )
-          : StreamBuilder(
-              stream: FirebaseFirestore.instance
-                  .collection('tweet')
-                  .doc()
-                  .snapshots(),
-              builder: (context, snapshot) {
-                return ListView.separated(
-                  itemCount: snapshot.data!.docs.length,
-                  itemBuilder: (context, index) {
-                    return ListTile(
-                        leading: const CircleAvatar(
-                          backgroundImage: NetworkImage(
-                              'https://www.10wallpaper.com/wallpaper/1366x768/2005/Mountains_Rocks_Lake_2020_Landscape_High_Quality_Photo_1366x768.jpg'),
-                          backgroundColor: Colors.transparent,
-                        ),
-                        title: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: const [
-                            Text(
-                              'ひろむ',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 18),
-                            ),
-                            Text(
-                              '@myIDdesu',
-                              style:
-                                  TextStyle(color: Colors.grey, fontSize: 12),
-                            ),
-                            Text('0時間前',
-                                style: TextStyle(
-                                    color: Colors.grey, fontSize: 12)),
-                            Icon(
-                              Icons.more_horiz,
-                              color: Colors.grey,
-                              size: 16,
-                            )
-                          ],
-                        ),
-                        subtitle: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                snapshot.data.docs[index].data['tweet'],
-                                style: const TextStyle(color: Colors.black),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(top: 24),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: const [
-                                    Icon(
-                                      Icons.mode_comment_outlined,
-                                      color: Colors.grey,
-                                      size: 18,
-                                    ),
-                                    Icon(
-                                      Icons.repeat_outlined,
-                                      color: Colors.grey,
-                                      size: 18,
-                                    ),
-                                    Icon(
-                                      Icons.favorite_border,
-                                      color: Colors.grey,
-                                      size: 18,
-                                    )
-                                  ],
-                                ),
-                              )
-                            ]),
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => ListDetail(
-                                  context.watch<TweetProvider>().list[index]),
-                            ),
-                          );
-                        });
-                  },
-                  separatorBuilder: (context, index) => const Divider(
-                    color: Colors.black12,
-                    height: 3,
-                  ),
-                );
-              }),
+            );
+          }
+        },
+      ),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.article_outlined),
         onPressed: () async {
