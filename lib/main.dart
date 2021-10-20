@@ -219,8 +219,8 @@ class _MyHomePageState extends State<MyHomePage> {
       body: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance.collection('tweet').snapshots(),
         builder: (context, snapshot) {
-          if (snapshot.data!.docs.isNotEmpty) {
-            final List<DocumentSnapshot> documents = snapshot.data!.docs;
+          final List<DocumentSnapshot> documents = snapshot.data!.docs;
+          if (documents.length != 0) {
             return ListView.separated(
               shrinkWrap: true,
               itemCount: documents.length,
