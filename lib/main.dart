@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -215,19 +216,10 @@ class _MyHomePageState extends State<MyHomePage> {
           style: TextStyle(color: Colors.blue),
         ),
       ),
-      body: context.watch<TweetProvider>().list.isEmpty
-          ? Container(
-              padding: const EdgeInsets.only(
-                top: 24,
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
-                  Text('まだ何も投稿されていません'),
-                ],
-              ),
-            )
-          : ListView.separated(
+      body: FutureBuilder<QuerySnapshot>(
+          future: FirebaseFirestore.instance.collection('tweet').get(),
+          builder: (context, snapshot) {
+            return ListView.separated(
               itemCount: context.watch<TweetProvider>().list.length,
               itemBuilder: (context, index) {
                 return ListTile(
@@ -302,7 +294,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 color: Colors.black12,
                 height: 3,
               ),
-            ),
+            );
+          }),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.article_outlined),
         onPressed: () async {
