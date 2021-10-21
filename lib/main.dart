@@ -217,10 +217,13 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       body: FutureBuilder<QuerySnapshot>(
-          future: FirebaseFirestore.instance.collection('tweet').get(),
-          builder: (context, snapshot) {
+        future: FirebaseFirestore.instance.collection('tweet').get(),
+        builder: (context, snapshot) {
+          final List<DocumentSnapshot> documents = snapshot.data!.docs;
+          if (documents.length != 0) {
             return ListView.separated(
-              itemCount: context.watch<TweetProvider>().list.length,
+              shrinkWrap: true,
+              itemCount: documents.length,
               itemBuilder: (context, index) {
                 return ListTile(
                     leading: const CircleAvatar(
@@ -253,7 +256,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            context.watch<TweetProvider>().list[index],
+                            documents[index]["tweet"],
                             style: const TextStyle(color: Colors.black),
                           ),
                           Padding(
@@ -285,7 +288,8 @@ class _MyHomePageState extends State<MyHomePage> {
                         context,
                         MaterialPageRoute(
                           builder: (context) => ListDetail(
-                              context.watch<TweetProvider>().list[index]),
+                              documents[index]["tweet"],
+                              documents[index]["time"]),
                         ),
                       );
                     });
@@ -295,7 +299,23 @@ class _MyHomePageState extends State<MyHomePage> {
                 height: 3,
               ),
             );
-          }),
+          } else if (snapshot.hasError) {
+            return Text('エラー');
+          } else {
+            return Container(
+              padding: const EdgeInsets.only(
+                top: 24,
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: const [
+                  Text('まだ何も投稿されていません'),
+                ],
+              ),
+            );
+          }
+        },
+      ),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.article_outlined),
         onPressed: () async {

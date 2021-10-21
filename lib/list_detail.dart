@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 
 class ListDetail extends StatelessWidget {
   final String content;
-  ListDetail(this.content);
+  final String time;
+  ListDetail(this.content, this.time);
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +59,7 @@ class ListDetail extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.only(top: 60),
-              child: Text('03:09・2021年10月1日',
+              child: Text(time,
                   style: TextStyle(fontSize: 14, color: Colors.grey)),
             ),
             Divider(
