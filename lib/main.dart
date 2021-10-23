@@ -7,6 +7,7 @@ import 'package:sample/provider.dart';
 import 'package:provider/provider.dart';
 
 import 'list_detail.dart';
+import 'tweet_list/tweet_list_model.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,7 +22,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider<TweetProvider>(create: (_) => TweetProvider())
+        ChangeNotifierProvider<TweetListModel>(create: (_) => TweetListModel())
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
@@ -43,6 +44,9 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final GlobalKey<ScaffoldState> _key = GlobalKey<ScaffoldState>();
+
+  Stream<QuerySnapshot> _tweetStream =
+      FirebaseFirestore.instance.collection('tweet').snapshots();
 
   @override
   Widget build(BuildContext context) {
@@ -217,7 +221,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       body: StreamBuilder<QuerySnapshot>(
-        stream: FirebaseFirestore.instance.collection('tweet').snapshots(),
+        stream: _tweetStream,
         builder: (context, snapshot) {
           final List<DocumentSnapshot> documents = snapshot.data!.docs;
           if (documents.length != 0) {
