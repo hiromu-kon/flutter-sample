@@ -223,8 +223,8 @@ class _MyHomePageState extends State<MyHomePage> {
       body: StreamBuilder<QuerySnapshot>(
         stream: _tweetStream,
         builder: (context, snapshot) {
-          final List<DocumentSnapshot> documents = snapshot.data!.docs;
-          if (documents.length != 0) {
+          final List<DocumentSnapshot>? documents = snapshot.data!.docs;
+          if (documents!.length != 0) {
             return ListView.separated(
               shrinkWrap: true,
               itemCount: documents.length,
