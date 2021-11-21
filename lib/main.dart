@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -6,6 +7,7 @@ import 'package:sample/provider.dart';
 import 'package:provider/provider.dart';
 
 import 'list_detail.dart';
+import 'tweet_list/tweet_list_model.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,7 +22,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider<TweetProvider>(create: (_) => TweetProvider())
+        ChangeNotifierProvider<TweetListModel>(create: (_) => TweetListModel())
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
@@ -42,6 +44,9 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final GlobalKey<ScaffoldState> _key = GlobalKey<ScaffoldState>();
+
+  Stream<QuerySnapshot> _tweetStream =
+      FirebaseFirestore.instance.collection('tweet').snapshots();
 
   @override
   Widget build(BuildContext context) {
@@ -215,20 +220,14 @@ class _MyHomePageState extends State<MyHomePage> {
           style: TextStyle(color: Colors.blue),
         ),
       ),
-      body: context.watch<TweetProvider>().list.isEmpty
-          ? Container(
-              padding: const EdgeInsets.only(
-                top: 24,
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
-                  Text('まだ何も投稿されていません'),
-                ],
-              ),
-            )
-          : ListView.separated(
-              itemCount: context.watch<TweetProvider>().list.length,
+      body: StreamBuilder<QuerySnapshot>(
+        stream: _tweetStream,
+        builder: (context, snapshot) {
+          final List<DocumentSnapshot>? documents = snapshot.data!.docs;
+          if (documents!.length != 0) {
+            return ListView.separated(
+              shrinkWrap: true,
+              itemCount: documents.length,
               itemBuilder: (context, index) {
                 return ListTile(
                     leading: const CircleAvatar(
@@ -261,7 +260,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            context.watch<TweetProvider>().list[index],
+                            documents[index]["tweet"],
                             style: const TextStyle(color: Colors.black),
                           ),
                           Padding(
@@ -293,7 +292,8 @@ class _MyHomePageState extends State<MyHomePage> {
                         context,
                         MaterialPageRoute(
                           builder: (context) => ListDetail(
-                              context.watch<TweetProvider>().list[index]),
+                              documents[index]["tweet"],
+                              documents[index]["time"]),
                         ),
                       );
                     });
@@ -302,7 +302,24 @@ class _MyHomePageState extends State<MyHomePage> {
                 color: Colors.black12,
                 height: 3,
               ),
-            ),
+            );
+          } else if (snapshot.hasError) {
+            return Text('エラー');
+          } else {
+            return Container(
+              padding: const EdgeInsets.only(
+                top: 24,
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: const [
+                  Text('まだ何も投稿されていません'),
+                ],
+              ),
+            );
+          }
+        },
+      ),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.article_outlined),
         onPressed: () async {
